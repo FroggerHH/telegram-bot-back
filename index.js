@@ -1,13 +1,23 @@
 const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
 const webAppUrl = 'https://jf-tg-bot.netlify.app/';
-const bot = new TelegramBot(process.env.BOT_TOKEN, {polling: true});
+
+let token;
+process.argv.forEach(function (val, index, array) {
+    if(val !== undefined && val.startsWith('BOT_TOKEN')) {
+        token = val.split('=')[1];
+        console.log(`Token: '${token}'`);
+    }
+});
+
+const bot = new TelegramBot(token, {polling: true});
 const app = express();
 
 app.use(express.json());
 app.use(cors());
+
+
 
 bot.on('message', async (msg) => {
     const chatId = msg.chat.id;
