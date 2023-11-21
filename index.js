@@ -1,11 +1,9 @@
 const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 const cors = require('cors');
-
-const token = '6693653778:AAGjEF3T4kRJut4ebfJsNEKAjS6s2eFpRQQ';
+require('dotenv').config();
 const webAppUrl = 'https://jf-tg-bot.netlify.app/';
-
-const bot = new TelegramBot(token, {polling: true});
+const bot = new TelegramBot(process.env.BOT_TOKEN, {polling: true});
 const app = express();
 
 app.use(express.json());
