@@ -60,7 +60,7 @@ bot.on('message', async (msg) => {
     }
 });
 
-app.post('/web-data', async (req, res) => {
+app.post('api/web-data', async (req, res) => {
     const {queryId, products = [], totalPrice} = req.body;
     try {
         await bot.answerWebAppQuery(queryId, {
@@ -75,6 +75,96 @@ app.post('/web-data', async (req, res) => {
     } catch (e) {
         return res.status(500).json({})
     }
+})
+
+app.get('/', (req, res) => {
+    res.send(`
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        section {
+            margin-top: 20px;
+        }
+
+        p {
+            line-height: 1.6;
+            color: #555;
+        }
+
+        footer {
+            text-align: center;
+            color: #888;
+        }
+        
+        html{
+            height: 100%;
+        }
+        
+        body{
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <header>
+        <h1>API Documentation</h1>
+    </header>
+
+    <section>
+        <h2>Introduction</h2>
+        <p>Welcome to the documentation for our API. This API provides various features for my Telegram bot to work.</p>
+    </section>
+
+    <section>
+        <h2>Endpoints</h2>
+        <p>Our API has the following endpoints:</p>
+        <ul>
+            <li>/api/web-data - POST</li>
+            <li>/api/get-user-photo - GET</li>
+            <!-- Add more endpoints and descriptions as needed -->
+        </ul>
+    </section>
+</main>
+    <footer>
+        &copy; 2023 My Telegram Bot<br>
+        To access the API, you should talk to author. Contact me in discord 
+        <span style="
+            background-color: darkgray;
+            border-radius: 5px;
+            padding: 1px 4px;
+        ">@justafrogger</span>
+    </footer>
+
+</body>
+</html>
+`);
 })
 
 const PORT = 8000;
