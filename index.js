@@ -80,7 +80,7 @@ app.get('/api/get-products', async (req, res) => {
             title: 'Джинсы',
             price: 5000,
             description: 'Синего цвета, прямые',
-            picture: 'https://hips.hearstapps.com/hmg-prod/images/jeans-scattered-on-a-wooden-background-royalty-free-image-940015420-1551972989.jpg'
+            image: 'https://hips.hearstapps.com/hmg-prod/images/jeans-scattered-on-a-wooden-background-royalty-free-image-940015420-1551972989.jpg'
         },
         {
             id: '2', title: 'Куртка', price: 12000, description: 'Зеленого цвета, теплая'
