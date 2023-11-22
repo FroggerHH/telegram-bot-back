@@ -4,8 +4,9 @@ const cors = require('cors');
 const webAppUrl = 'https://jf-tg-bot.netlify.app/';
 const io = require('@pm2/io')
 io.init({
-    transactions: true,
-    http: true
+    http: true,
+    https: true,
+    transactions: true
 })
 
 let token;
@@ -169,6 +170,9 @@ app.get('/', (req, res) => {
 </body>
 </html>
 `);
+})
+app.get('/api', async (req, res) => {
+    res.redirect('/');
 })
 
 const PORT = 8000;
