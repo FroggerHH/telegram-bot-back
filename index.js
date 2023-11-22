@@ -1,8 +1,7 @@
 const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 const cors = require('cors');
-// const webAppUrl = 'https://jf-tg-bot.netlify.app/';
-const webAppUrl = 'http://5.35.9.71:8000/';
+const webAppUrl = 'https://jf-tg-bot.netlify.app/';
 const io = require('@pm2/io')
 io.init({
     http: true, https: true, transactions: true
