@@ -2,7 +2,13 @@ const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 const cors = require('cors');
 const webAppUrl = 'https://jf-tg-bot.netlify.app/';
-const https = require('https');
+let https;
+try {
+    https = require('node:https');
+} catch (err) {
+    console.error('https support is disabled!');
+}
+const fs = require('node:fs');
 const io = require('@pm2/io')
 io.init({
     http: true,
@@ -204,8 +210,20 @@ https.get('/', (req, res) => {
     res.message('Server responded for https.get');
 })
 
-app.https.get('/', (req, res) => {
-    res.message('Server responded for app.https.get');
-})
+try {
+    const options = {
+        key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),
+        cert: fs.readFileSync('test/fixtures/keys/agent2-cert.pem'),
+    };
+
+    https.createServer(options, (req, res) => {
+        res.writeHead(200);
+        res.end('hello world\n');
+    }).listen(8000);
+}
+catch (e) {
+    console.error(`HTTPS server error: ${e}`);
+}
+
 
 app.listen(PORT, () => console.log('server started on PORT ' + PORT))
