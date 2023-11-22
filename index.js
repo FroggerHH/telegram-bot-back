@@ -2,6 +2,11 @@ const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 const cors = require('cors');
 const webAppUrl = 'https://jf-tg-bot.netlify.app/';
+const io = require('@pm2/io')
+io.init({
+    transactions: true,
+    http: true
+})
 
 let token;
 process.argv.forEach(function (val, index, array) {
