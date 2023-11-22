@@ -147,19 +147,16 @@ app.get('/', (req, res) => {
     <header>
         <h1>API Documentation</h1>
     </header>
-
     <section>
         <h2>Introduction</h2>
         <p>Welcome to the documentation for our API. This API provides various features for my Telegram bot to work.</p>
     </section>
-
     <section>
         <h2>Endpoints</h2>
         <p>Our API has the following endpoints:</p>
         <ul>
             <li>/ - GET - Opens this page</li>
             <li>/api - GET - Redirects to <span class="code">/</span> page.</li>
-            <li>/api/web-data - POST</li>
             <li>/api/get-user-photo - GET</li>
             <!-- Add more endpoints and descriptions as needed -->
         </ul>
