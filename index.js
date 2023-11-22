@@ -206,9 +206,9 @@ const PORT = 8000;
 //     res.redirect('/');
 // })
 
-https.get('/', (req, res) => {
-    res.message('Server responded for https.get');
-})
+// https.get('/', (req, res) => {
+//     res.message('Server responded for https.get');
+// })
 
 try {
     const options = {
