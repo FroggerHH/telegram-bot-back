@@ -134,6 +134,12 @@ app.get('/', (req, res) => {
             align-items: center;
             flex-direction: column;
         }
+        
+        .code{
+            background-color: darkgray;
+            border-radius: 5px;
+            padding: 1px 4px;
+        }
     </style>
 </head>
 <body>
@@ -151,6 +157,8 @@ app.get('/', (req, res) => {
         <h2>Endpoints</h2>
         <p>Our API has the following endpoints:</p>
         <ul>
+            <li>/ - GET - Opens this page</li>
+            <li>/api - GET - Redirects to <span class="code">/</span> page.</li>
             <li>/api/web-data - POST</li>
             <li>/api/get-user-photo - GET</li>
             <!-- Add more endpoints and descriptions as needed -->
@@ -160,11 +168,7 @@ app.get('/', (req, res) => {
     <footer>
         &copy; 2023 My Telegram Bot<br>
         To access the API, you should talk to author. Contact me in discord 
-        <span style="
-            background-color: darkgray;
-            border-radius: 5px;
-            padding: 1px 4px;
-        ">@justafrogger</span>
+        <span class="code">@justafrogger</span>
     </footer>
 
 </body>
