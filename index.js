@@ -5,7 +5,7 @@ const webAppUrl = 'https://jf-tg-bot.netlify.app/';
 
 let token;
 process.argv.forEach(function (val, index, array) {
-    if(val !== undefined && val.startsWith('BOT_TOKEN')) {
+    if (val !== undefined && val.startsWith('BOT_TOKEN')) {
         token = val.split('=')[1];
         console.log(`Token: '${token}'`);
     }
@@ -16,7 +16,6 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
-
 
 
 bot.on('message', async (msg) => {
@@ -61,14 +60,14 @@ bot.on('message', async (msg) => {
 });
 
 app.post('api/web-data', async (req, res) => {
-    const {queryId, products = [], totalPrice} = req.body;
+    const {queryId, totalPrice} = req.body;
     try {
         await bot.answerWebAppQuery(queryId, {
             type: 'article',
             id: queryId,
             title: 'Успешная покупка',
             input_message_content: {
-                message_text: ` Поздравляю с покупкой, вы приобрели товар на сумму ${totalPrice}, ${products.map(item => item.title).join(', ')}`
+                message_text: ` Поздравляю с покупкой, вы приобрели товар на сумму ${totalPrice}}`
             }
         })
         return res.status(200).json({});
