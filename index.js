@@ -178,15 +178,16 @@ app.get('/', (req, res) => {
             <li>/ - GET - Opens this page</li>
             <li>/api - GET - Redirects to <span class="code">/</span> page.</li>
             <li>/api/get-user-photo - GET</li>
+            <li>/api/get-products - GET - Returns an array of all products</li>
             <!-- Add more endpoints and descriptions as needed -->
         </ul>
     </section>
 </main>
-    <footer>
-        &copy; 2023 My Telegram Bot<br>
-        To access the API, you should talk to author. Contact me in discord 
-        <span class="code">@justafrogger</span>
-    </footer>
+<footer>
+    &copy; 2023 My Telegram Bot<br>
+    To access the API, you should talk to author. Contact me in discord 
+    <span class="code">@justafrogger</span>
+</footer>
 
 </body>
 </html>
