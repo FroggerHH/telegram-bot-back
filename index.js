@@ -210,10 +210,5 @@ app.get('/api', async (req, res) => {
     res.redirect('/');
 })
 
-https.get('/', (req, res) => {
-    res.message('Server responded for https.get');
-})
-
-
 const PORT = 8000;
 app.listen(PORT, () => console.log('server started on PORT ' + PORT))
