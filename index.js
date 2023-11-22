@@ -219,11 +219,11 @@ try {
     https.createServer(options, (req, res) => {
         res.writeHead(200);
         res.end('hello world\n');
-    }).listen(8000);
+    }).listen(PORT, () => console.log('HTTPS server started on PORT ' + PORT));
 }
 catch (e) {
     console.error(`HTTPS server error: ${e}`);
 }
 
 
-app.listen(PORT, () => console.log('server started on PORT ' + PORT))
+//app.listen(PORT, () => console.log('server started on PORT ' + PORT))
