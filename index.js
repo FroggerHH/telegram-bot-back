@@ -2,18 +2,9 @@ const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 const cors = require('cors');
 const webAppUrl = 'https://jf-tg-bot.netlify.app/';
-let https;
-try {
-    https = require('node:https');
-} catch (err) {
-    console.error('https support is disabled!');
-}
-const fs = require('node:fs');
 const io = require('@pm2/io')
 io.init({
-    http: true,
-    https: true,
-    transactions: true
+    http: true, https: true, transactions: true
 })
 
 let token;
@@ -38,9 +29,7 @@ bot.on('message', async (msg) => {
     if (text === '/start') {
         await bot.sendMessage(chatId, 'Ниже появится кнопка, заполни форму', {
             reply_markup: {
-                keyboard: [
-                    [{text: 'Заполнить форму', web_app: {url: webAppUrl + '/form'}}]
-                ],
+                keyboard: [[{text: 'Заполнить форму', web_app: {url: webAppUrl + '/form'}}]],
                 resize_keyboard: true,
                 one_time_keyboard: true
             }
@@ -48,9 +37,7 @@ bot.on('message', async (msg) => {
 
         await bot.sendMessage(chatId, 'Заходи в наш интернет магазин по кнопке ниже', {
             reply_markup: {
-                inline_keyboard: [
-                    [{text: 'Сделать заказ', web_app: {url: webAppUrl}}]
-                ]
+                inline_keyboard: [[{text: 'Сделать заказ', web_app: {url: webAppUrl}}]]
             }
         })
     }
@@ -76,10 +63,7 @@ app.post('api/web-data', async (req, res) => {
     const {queryId, totalPrice} = req.body;
     try {
         await bot.answerWebAppQuery(queryId, {
-            type: 'article',
-            id: queryId,
-            title: 'Успешная покупка',
-            input_message_content: {
+            type: 'article', id: queryId, title: 'Успешная покупка', input_message_content: {
                 message_text: ` Поздравляю с покупкой, вы приобрели товар на сумму ${totalPrice}}`
             }
         })
@@ -98,132 +82,138 @@ app.get('/api/get-products', async (req, res) => {
             description: 'Синего цвета, прямые',
             picture: 'https://hips.hearstapps.com/hmg-prod/images/jeans-scattered-on-a-wooden-background-royalty-free-image-940015420-1551972989.jpg'
         },
-        {id: '2', title: 'Куртка', price: 12000, description: 'Зеленого цвета, теплая'},
-        {id: '3', title: 'Джинсы 2', price: 5000, description: 'Синего цвета, прямые'},
-        {id: '4', title: 'Куртка 8', price: 122, description: 'Зеленого цвета, теплая'},
-        {id: '5', title: 'Джинсы 3', price: 5000, description: 'Синего цвета, прямые'},
-        {id: '6', title: 'Куртка 7', price: 600, description: 'Зеленого цвета, теплая'},
-        {id: '7', title: 'Джинсы 4', price: 5500, description: 'Синего цвета, прямые'},
-        {id: '8', title: 'Куртка 5', price: 12000, description: 'Зеленого цвета, теплая'},
-    ]
+        {
+            id: '2', title: 'Куртка', price: 12000, description: 'Зеленого цвета, теплая'
+        },
+        {
+            id: '3',
+            title: 'Джинсы 2',
+            price: 5000,
+            description: 'Синего цвета, прямые'
+        },
+        {
+            id: '4', title: 'Куртка 8', price: 122, description: 'Зеленого цвета, теплая'
+        },
+        {
+            id: '5',
+            title: 'Джинсы 3',
+            price: 5000,
+            description: 'Синего цвета, прямые'
+        },
+        {
+            id: '6', title: 'Куртка 7', price: 600, description: 'Зеленого цвета, теплая'
+        },
+        {
+            id: '7',
+            title: 'Джинсы 4',
+            price: 5500,
+            description: 'Синего цвета, прямые'
+        },
+        {
+            id: '8', title: 'Куртка 5', price: 12000, description: 'Зеленого цвета, теплая'
+        },]
     res.status(200).json(products)
+})
+
+app.get('/', (req, res) => {
+    res.send(`
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        section {
+            margin-top: 20px;
+        }
+
+        p {
+            line-height: 1.6;
+            color: #555;
+        }
+
+        footer {
+            text-align: center;
+            color: #888;
+        }
+
+        html{
+            height: 100%;
+        }
+
+        body{
+            height: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .code{
+            background-color: darkgray;
+            border-radius: 5px;
+            padding: 1px 4px;
+        }
+    </style>
+</head>
+<body>
+<main>
+    <header>
+        <h1>API Documentation</h1>
+    </header>
+    <section>
+        <h2>Introduction</h2>
+        <p>Welcome to the documentation for our API. This API provides various features for my Telegram bot to work.</p>
+    </section>
+    <section>
+        <h2>Endpoints</h2>
+        <p>Our API has the following endpoints:</p>
+        <ul>
+            <li>/ - GET - Opens this page</li>
+            <li>/api - GET - Redirects to <span class="code">/</span> page.</li>
+            <li>/api/get-user-photo - GET</li>
+            <li>/api/get-products - GET - Returns an array of all products</li>
+            <!-- Add more endpoints and descriptions as needed -->
+        </ul>
+    </section>
+</main>
+<footer>
+    &copy; 2023 My Telegram Bot<br>
+    To access the API, you should talk to author. Contact me in discord
+    <span class="code">@justafrogger</span>
+</footer>
+
+</body>
+</html>
+`);
+})
+app.get('/api', async (req, res) => {
+    res.redirect('/');
+})
+
+https.get('/', (req, res) => {
+    res.message('Server responded for https.get');
 })
 
 
 const PORT = 8000;
-// app.get('/', (req, res) => {
-//     res.send(`
-//     <!DOCTYPE html>
-// <html lang="en">
-// <head>
-//     <meta charset="UTF-8">
-//     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-//     <title>API Documentation</title>
-//     <style>
-//         * {
-//             box-sizing: border-box;
-//         }
-//         body {
-//             font-family: Arial, sans-serif;
-//             margin: 0;
-//         }
-//
-//         header {
-//             text-align: center;
-//             padding: 20px;
-//             background-color: #f2f2f2;
-//         }
-//
-//         h1 {
-//             color: #333;
-//         }
-//
-//         section {
-//             margin-top: 20px;
-//         }
-//
-//         p {
-//             line-height: 1.6;
-//             color: #555;
-//         }
-//
-//         footer {
-//             text-align: center;
-//             color: #888;
-//         }
-//
-//         html{
-//             height: 100%;
-//         }
-//
-//         body{
-//             height: 100%;
-//             display: flex;
-//             justify-content: space-between;
-//             align-items: center;
-//             flex-direction: column;
-//         }
-//
-//         .code{
-//             background-color: darkgray;
-//             border-radius: 5px;
-//             padding: 1px 4px;
-//         }
-//     </style>
-// </head>
-// <body>
-// <main>
-//     <header>
-//         <h1>API Documentation</h1>
-//     </header>
-//     <section>
-//         <h2>Introduction</h2>
-//         <p>Welcome to the documentation for our API. This API provides various features for my Telegram bot to work.</p>
-//     </section>
-//     <section>
-//         <h2>Endpoints</h2>
-//         <p>Our API has the following endpoints:</p>
-//         <ul>
-//             <li>/ - GET - Opens this page</li>
-//             <li>/api - GET - Redirects to <span class="code">/</span> page.</li>
-//             <li>/api/get-user-photo - GET</li>
-//             <li>/api/get-products - GET - Returns an array of all products</li>
-//             <!-- Add more endpoints and descriptions as needed -->
-//         </ul>
-//     </section>
-// </main>
-// <footer>
-//     &copy; 2023 My Telegram Bot<br>
-//     To access the API, you should talk to author. Contact me in discord
-//     <span class="code">@justafrogger</span>
-// </footer>
-//
-// </body>
-// </html>
-// `);
-// })
-// app.get('/api', async (req, res) => {
-//     res.redirect('/');
-// })
-
-// https.get('/', (req, res) => {
-//     res.message('Server responded for https.get');
-// })
-
-try {
-    // const options = {
-    //     key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),
-    //     cert: fs.readFileSync('test/fixtures/keys/agent2-cert.pem'),
-    // };
-
-    https.createServer((req, res) => {
-        res.writeHead(200);
-        res.end('hello world\n');
-    }).listen(PORT, () => console.log('HTTPS server started on PORT ' + PORT));
-}
-catch (e) {
-    console.error(`HTTPS server error: ${e}`);
-}
-
-
-//app.listen(PORT, () => console.log('server started on PORT ' + PORT))
+app.listen(PORT, () => console.log('server started on PORT ' + PORT))
