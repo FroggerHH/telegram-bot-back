@@ -211,12 +211,12 @@ const PORT = 8000;
 // })
 
 try {
-    const options = {
-        key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),
-        cert: fs.readFileSync('test/fixtures/keys/agent2-cert.pem'),
-    };
+    // const options = {
+    //     key: fs.readFileSync('test/fixtures/keys/agent2-key.pem'),
+    //     cert: fs.readFileSync('test/fixtures/keys/agent2-cert.pem'),
+    // };
 
-    https.createServer(options, (req, res) => {
+    https.createServer((req, res) => {
         res.writeHead(200);
         res.end('hello world\n');
     }).listen(PORT, () => console.log('HTTPS server started on PORT ' + PORT));
