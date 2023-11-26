@@ -1,4 +1,3 @@
-const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 const cors = require('cors');
 const webAppUrl = 'https://jf-tg-bot.netlify.app/';
@@ -7,71 +6,11 @@ io.init({
     http: true, https: true, transactions: true
 })
 
-let token;
-process.argv.forEach(function (val, index, array) {
-    if (val !== undefined && val.startsWith('BOT_TOKEN')) {
-        token = val.split('=')[1];
-        console.log(`Token: '${token}'`);
-    }
-});
-
-const bot = new TelegramBot(token, {polling: true});
 const app = express();
 
 app.use(express.json());
 app.use(cors());
 
-
-bot.on('message', async (msg) => {
-    const chatId = msg.chat.id;
-    const text = msg.text;
-
-    if (text === '/start') {
-        await bot.sendMessage(chatId, 'Ниже появится кнопка, заполни форму', {
-            reply_markup: {
-                keyboard: [[{text: 'Заполнить форму', web_app: {url: webAppUrl + '/form'}}]],
-                resize_keyboard: true,
-                one_time_keyboard: true
-            }
-        })
-
-        await bot.sendMessage(chatId, 'Заходи в наш интернет магазин по кнопке ниже', {
-            reply_markup: {
-                inline_keyboard: [[{text: 'Сделать заказ', web_app: {url: webAppUrl}}]]
-            }
-        })
-    }
-
-    if (msg?.web_app_data?.data) {
-        try {
-            const data = JSON.parse(msg?.web_app_data?.data)
-            console.log(data)
-            await bot.sendMessage(chatId, 'Спасибо за обратную связь!')
-            await bot.sendMessage(chatId, 'Ваша страна: ' + data?.country);
-            await bot.sendMessage(chatId, 'Ваша улица: ' + data?.street);
-
-            setTimeout(async () => {
-                await bot.sendMessage(chatId, 'Всю информацию вы получите в этом чате');
-            }, 3000)
-        } catch (e) {
-            console.log(e);
-        }
-    }
-});
-
-app.post('api/web-data', async (req, res) => {
-    const {queryId, totalPrice} = req.body;
-    try {
-        await bot.answerWebAppQuery(queryId, {
-            type: 'article', id: queryId, title: 'Успешная покупка', input_message_content: {
-                message_text: ` Поздравляю с покупкой, вы приобрели товар на сумму ${totalPrice}}`
-            }
-        })
-        return res.status(200).json({});
-    } catch (e) {
-        return res.status(500).json({})
-    }
-})
 
 app.get('/api/get-products', async (req, res) => {
     const products = [
@@ -115,7 +54,7 @@ app.get('/api/get-products', async (req, res) => {
     res.status(200).json(products)
 })
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
     res.send(`
     <!DOCTYPE html>
 <html lang="en">
@@ -205,9 +144,6 @@ app.get('/', (req, res) => {
 </body>
 </html>
 `);
-})
-app.get('/api', async (req, res) => {
-    res.redirect('/');
 })
 
 const PORT = 8000;
